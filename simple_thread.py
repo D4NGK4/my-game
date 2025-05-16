@@ -7,11 +7,14 @@ def a_function(number):
     print("Thread " + str(number) + ": finished")
     
 if __name__ == "__main__":
-    t1 = threading.Thread(target=a_function, args=(1,))
-    t2 = threading.Thread(target=a_function, args=(2,))
-    t3 = threading.Thread(target=a_function, args=(3,))
-    t1.start()
-    t2.start()
-    t3.start()
+    threads = []
+    
+    for x in range(1,4):
+        thread = threading.Thread(target=a_function, args=(x,))
+        threads.append(thread)
+        thread.start()
+        
+    for thread in threads:
+        thread.join()
     
     print("Program Completed")

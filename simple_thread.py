@@ -1,20 +1,21 @@
 import threading
-import time 
+import time
+from typing import List
 
-def a_function(number):
-    print("Thread " + str(number) + ": starting")
+def execute_task(thread_id: int) -> None:
+    print(f"Thread {thread_id}: starting")
     time.sleep(1)
-    print("Thread " + str(number) + ": finished")
-    
+    print(f"Thread {thread_id}: finished")
+
 if __name__ == "__main__":
-    threads = []
+    active_threads: List[threading.Thread] = []
     
-    for x in range(1,4):
-        thread = threading.Thread(target=a_function, args=(x,))
-        threads.append(thread)
-        thread.start()
-        
-    for thread in threads:
-        thread.join()
+    for thread_id in range(1, 4):
+        worker = threading.Thread(target=execute_task, args=(thread_id,))
+        active_threads.append(worker)
+        worker.start()
+    
+    for worker in active_threads:
+        worker.join()
     
     print("Program Completed")
